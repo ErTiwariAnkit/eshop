@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load cart %}
+{% load custom_filter %}
+
+<div id='products' class="col-lg-9 mx-auto">
+    <div class="row mx-auto">
+        <div class="card mx-auto mb-3" id={{product.id}} style="width: 18rem;">
+            <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
+            <div class="card-body">
+                <p class="card-title">{{product.name}}</p>
+                <p class="p-3 mb-2 bg-success text-white">Quantity {{product.quantity}}</p>
+                <p class="p-3 mb-2 bg-success text-white">Seller-{{product.seller}}</p>
+                {%if product.avail%}
+                <p class="p-3 mb-2 bg-success text-white">Availiable</h6>
+                    {%else%}
+                <p class="text-danger">Out of stock</p>
+                {%endif%}
+                <p class="card-text"><b>{{product.price|currency}}</b></p>
+
+
+                <!-- isko add krna hai------------------------------------------------- -->
+
+
+                <!-- isko add krna hai------------------------------------------------- -->
+
+
+                <!-- {{product | is_in_cart:request.session.cart }} -->
+            </div>
+
+
+            <div class="card-footer p-0 no-gutters">
+                {%if product.avail%}
+                <form action="/#{{product.id}}" method="POST" class="btn-block">
+                    {% csrf_token %}
+                    <input hidden type="text" name='product' value='{{product.id}}'>
+                    <b>Quantity:</b> <input type="number" class="size-36" name='quantity1' value='1' min="0" max="10"
+                                            step="1">
+                    <input type="submit" class="btn btn-primary mb-3  form-control"
+                           value="Add To Cart">
+                </form>
+                {%endif%}
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

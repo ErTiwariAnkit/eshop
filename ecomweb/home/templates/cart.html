@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+
+
+<!-- isko add krna hai------------------------------------------------- -->
+
+
+<script>
+    function myFunction() {
+        // Get the checkbox
+        var checkBox = document.getElementById("remove");
+      
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true){
+          document.getElementById('address').value = '{{address}}';
+        } else {
+                document.getElementById('address').value = '';
+        }
+      }
+
+</script>
+
+
+<!-- isko add krna hai------------------------------------------------- -->
+
+
+<div class="container">
+    <div class="border rounded p-4 m-4">
+        <p class="display-4 pl-4 ml-4">Your Cart</p>
+        <hr>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Sno.</th>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Remove</th>
+                <th>Unit Price</th>
+
+                <th>Total Price</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for product in products %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td><img style="height: 80px;" class="rounded-circle" src="{{product.image.url}}" alt=""></td>
+                <td>{{product.name}}</td>
+                <td>{{product|cart_quantity:request.session.cart}}</td>
+                <td>
+
+
+                    <!-- isko add krna hai------------------------------------------------- -->
+                    <div class="row no-gutters">
+                        <form action="?" class="col-8 " method="post">
+                            {% csrf_token %}
+                            <input hidden type="text" name='product' value='{{product.id}}'>
+                            <input hidden type="text" name='remove' value='True'>
+                            <input type="submit" value="Remove" class="btn btn-block btn-light border-right">
+                        </form>
+                    </div>
+                    <div class="row no-gutters">
+                        <form action="?" class="col-8 " method="post">
+                            {% csrf_token %}
+                            <input hidden type="text" name='product' value='{{product.id}}'>
+                            <input hidden type="text" name='reduce' value='True'>
+                            <input type="submit" value="Reduce Quantity" class="btn btn-block btn-light border-right">
+                        </form>
+                    </div>
+
+
+                    <!-- isko add krna hai------------------------------------------------- -->
+                </td>
+                <td>{{product.price|currency}}</td>
+                <td>{{product|price_total:request.session.cart|currency}}</td>
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th colspan="4"></th>
+                <th class="" colspan="">Total</th>
+                <th>{{products|total_cart_price:request.session.cart|currency}}</th>
+            </tr>
+            </tfoot>
+        </table>
+        <hr>
+        <div class="m-3 p-3">
+            <a href="/checkout" class="btn btn-outline-info border rounded  col-lg-3 float-right">Check Out</a>
+            <a href="/" class="btn btn-outline-info border rounded  col-lg-3 float-right">Continue Shopping</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
