@@ -39,3 +39,4 @@ class Login(View):
 
         print(email, password)
         return render(request, 'login.html', {'error': error_message})
+    

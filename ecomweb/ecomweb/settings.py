@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'profile_page',
     'registration',
     'crispy_forms',
+    'forget_password',
 ]
 
 MIDDLEWARE = [

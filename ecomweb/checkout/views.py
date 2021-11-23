@@ -101,6 +101,6 @@ class CheckOut(View):
                 products1 = Product.get_products_by_id(id)
                 products.append(products1)
             return render(request, 'checkout.html',
-                          {'address': address, 'products': products, 'cart_quantity': len(cart)})
+                          {'address': address, 'products': products, 'cart_quantity': sum(cart.values())})
         else:
             return redirect('/')

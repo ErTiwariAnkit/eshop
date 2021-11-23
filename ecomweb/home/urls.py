@@ -7,6 +7,7 @@ urlpatterns = [
     path('store', views.store, name='store'),
     path('login/', include('login.urls')),
     path('logout/', include('logout.urls')),
+    path('reset_password/',include('forget_password.urls')),
     path('orders/', include('order_page.urls')),
     path('product_detail/', include('product_detail_page.urls')),
     path('profile/', include('profile_page.urls')),

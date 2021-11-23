@@ -4,21 +4,67 @@
 
 {% load cart %}
 {% load custom_filter %}
+<style>
+      h1 {
+        color: rgb(14, 12, 12);
+      }
+      h2 {
+        color: rgb(14, 12, 12);
+      }
+      h4 {
+        color: #fff;
+      }
+      h4 span {
+        background-color: #3b358a;
+      }
+      h3 {
+        color: #fff;
+      }
+      h3 span {
+        background-color: #0c9129;
+      }
+      h5 {
+        color: #fff;
+      }
+      h5 span {
+        background-color: #0c9129;
+      }
+</style>
+<div class="card bg-light mb-3 mx-auto float-right text-end pt-4" style="max-width: 24rem;">
+    <h3 style="color:rgb(119, 150, 196);">Your cart: {{cart_values}}</h3>
+</div>
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+    }
 
+</style>
+<div class="grid-container">
+    <div class="grid-child purple">
 <div id='products' class="col-lg-9 mx-auto">
     <div class="row mx-auto">
         <div class="card mx-auto mb-3" id={{product.id}} style="width: 18rem;">
             <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
+            
+        </div>
+    </div>
+    <p>{{product.description}}</p>
+</div>
+    </div>
+    <div class="grid-child">
+            
             <div class="card-body">
-                <p class="card-title">{{product.name}}</p>
-                <p class="p-3 mb-2 bg-success text-white">Quantity {{product.quantity}}</p>
-                <p class="p-3 mb-2 bg-success text-white">Seller-{{product.seller}}</p>
+                <h1 ><b>{{product.name}}</b></h1>
+                <h4><span>Quantity: {{product.quantity}}</span></h4>
+                <h5><span>Seller: {{product.seller}}</span></h5>
                 {%if product.avail%}
-                <p class="p-3 mb-2 bg-success text-white">Availiable</h6>
+                <h3 > <span>  Availiable</span></h3>
                     {%else%}
                 <p class="text-danger">Out of stock</p>
                 {%endif%}
-                <p class="card-text"><b>{{product.price|currency}}</b></p>
+                <h2><span><b>{{product.price|currency}}</b></span></h2>
 
 
                 <!-- isko add krna hai------------------------------------------------- -->
@@ -38,7 +84,7 @@
                     <input hidden type="text" name='product' value='{{product.id}}'>
                     <b>Quantity:</b> <input type="number" class="size-36" name='quantity1' value='1' min="0" max="10"
                                             step="1">
-                    <input type="submit" class="btn btn-primary mb-3  form-control"
+                    <input type="submit" class="btn btn-primary btn-sm"
                            value="Add To Cart">
                 </form>
                 {%endif%}
