@@ -1,14 +1,12 @@
-from django.http.response import HttpResponse
-from django.shortcuts import render, redirect
-from ecomweb.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
-
-from django.contrib.auth.hashers import check_password
-from home.models.customer import Customer
+from django.http.response import HttpResponse
+from django.shortcuts import render
 from django.views import View
 
-from home.models.product import Product
+from ecomweb.settings import EMAIL_HOST_USER
+from home.models.customer import Customer
 from home.models.orders import Order
+from home.models.product import Product
 
 
 def function1(request):
@@ -22,34 +20,20 @@ class CheckOut(View):
         last_name = postData.get('lastname')
         phone = postData.get('phone')
         email = postData.get('email')
-        address = request.POST.get('address')
-        address_all = request.POST.get('address')
-        postal = request.POST.get('postal')
-        city = request.POST.get('city')
-        customer = request.session.get('customer')
+        address = postData.get('address')
+        postal = postData.get('postal')
+        city = postData.get('city')
+        customerID = request.session.get('customer')
         cart = request.session.get('cart')
         cart_list = list(cart.keys())
         products = []
-        for cart1 in cart_list:
-            products1 = Product.get_products_by_id(int(cart1))
-            products.append(products1)
-        print(address, phone, customer, cart, products)
-        print('cart is')
-        value = {
-            'first_name': first_name,
-            'last_name': last_name,
-            'phone': phone,
-            'email': email,
-            'address': address,
-            'postal': postal,
-            'city': city,
-
-        }
-        id1 = []
+        for productID in cart_list:
+            product = Product.get_products_by_id(int(productID))
+            products.append(product)
+        # print(address, phone, customerID, cart, products)
+        order_ids = []
         for product in products:
-            print(cart)
-            # print(cart.get(str(product.id)))
-            order = Order(customer=Customer(id=customer),
+            order = Order(customer=Customer(id=customerID),
                           first_name=first_name,
                           last_name=last_name,
                           email=email,
@@ -61,7 +45,7 @@ class CheckOut(View):
                           phone=phone,
                           quantity=cart.get(str(product.id))
                           )
-            print('product quantity is', product.quantity)
+            # print('product quantity is', product.quantity)
             product.quantity -= cart.get(str(product.id))
             print('product quantity is after reduce', product.quantity)
             if product.quantity <= 0:
@@ -69,21 +53,18 @@ class CheckOut(View):
             product.save()
             order.save()
             order_id = order.get_order_id()
-            id1.append(order_id)
-        customerID = request.session.get('customer')
+            order_ids.append(order_id)
+        # customerID = request.session.get('customer')
         customer = Customer.get_customer_by_id(customerID)
-        self.send_mail1(customer.first_name, customer.last_name, customer.email)
-        print(id1)
+        self.send_mail1(customer.first_name, customer.last_name, customer.email, order_ids)
+        print(order_ids)
 
         request.session['cart'] = {}
-        # id=request.session['order_id']=Order.id
-        # print(id)
+        return render(request, 'final.html', {'id1': order_ids})
 
-        return render(request, 'final.html', {'id1': id1})
-
-    def send_mail1(self, first_name, last_name, email):
+    def send_mail1(self, first_name, last_name, email, order_ids):
         subject = 'welcome to Ankit Tiwari E-commerce Websites'
-        message = f'Hi {first_name} {last_name}, Your order has been done'
+        message = f'Hi {first_name} {last_name}, Your order has been done Your order id is {order_ids}'
         email_from = EMAIL_HOST_USER
         recipient_list = [email, ]
         send_mail(subject, message, email_from, recipient_list)
@@ -92,15 +73,15 @@ class CheckOut(View):
         products = []
         customerID = request.session.get('customer')
         cart = request.session.get('cart')
-        print(len(cart))
-        if customerID:  # if user want to access checkout page without login redirec home page
+        # print(len(cart))
+        if customerID and len(cart):  # if user want to access checkout page without login redirec home page
             address = Customer.get_customer_default_address(request)
-            print('address is', address)
-            ids = list(request.session.get('cart').keys())
-            for id in ids:
-                products1 = Product.get_products_by_id(id)
-                products.append(products1)
+            # print('address is', address)
+            product_ids = list(request.session.get('cart').keys())
+            for product_id in product_ids:
+                product = Product.get_products_by_id(product_id)
+                products.append(product)
             return render(request, 'checkout.html',
                           {'address': address, 'products': products, 'cart_quantity': sum(cart.values())})
         else:
-            return redirect('/')
+            return render(request, 'cart.html', {'error': 'Your cart is empty click continue shopping for Buy item'})

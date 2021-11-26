@@ -33,6 +33,11 @@
 <div class="card bg-light mb-3 mx-auto float-right text-end pt-4" style="max-width: 24rem;">
     <h3 style="color:rgb(119, 150, 196);">Your cart: {{cart_values}}</h3>
 </div>
+{% if error%}
+        <div class="alert alert-danger" role="alert">
+            {{error}}
+        </div>
+        {% endif %}
 <style>
     .grid-container {
         display: grid;
@@ -82,7 +87,7 @@
                 <form action="/#{{product.id}}" method="POST" class="btn-block">
                     {% csrf_token %}
                     <input hidden type="text" name='product' value='{{product.id}}'>
-                    <b>Quantity:</b> <input type="number" class="size-36" name='quantity1' value='1' min="0" max="10"
+                    <b>Quantity:</b> <input type="number" class="size-36" name='quantity1' value='1' min="1"
                                             step="1">
                     <input type="submit" class="btn btn-primary btn-sm"
                            value="Add To Cart">

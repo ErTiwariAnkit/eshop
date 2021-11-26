@@ -1,4 +1,5 @@
 from django.db import models
+
 from .category import Category
 
 
@@ -15,17 +16,26 @@ class Product(models.Model):
     @staticmethod
     def get_products_by_id(ids):
         return Product.objects.get(id=ids)
+
     @staticmethod
-    def get_search_product(search_term,categoryid):
-        products=Product.get_all_products_by_categoryid(category_id=categoryid)
+    def get_search_product(search_term, categoryid):
+        products = Product.get_all_products_by_categoryid(category_id=categoryid)
+        print(products)
         return products.filter(name__contains=search_term)
+
     @staticmethod
     def get_product_sort_name():
         return Product.objects.order_by('name')
+
+    @staticmethod
+    def get_product_sort_name_category(category_id):
+        products = Product.get_all_products_by_categoryid(category_id=category_id)
+        print('products sort is', products)
+        return products.objects.order_by('name')
+
     @staticmethod
     def get_product_sort_price():
         return Product.objects.order_by('price')
-        
 
     @staticmethod
     def get_all_products():

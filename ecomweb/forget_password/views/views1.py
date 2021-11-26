@@ -1,12 +1,8 @@
-from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
-from ecomweb.settings import EMAIL_HOST_USER
-import math, random
-from django.core.mail import send_mail
-from home.models.customer import Customer
-from home.models.otp import Otp
 from django.views import View
-import re
+
+from home.models.otp import Otp
+
 
 class Password_reset(View):
     def get(self, request):
@@ -21,4 +17,4 @@ class Password_reset(View):
         if int(otp)==otp_get:
             return redirect('password_reset_confirm')
         else:
-            return render(request, 'core/password_reset_done.html')
+            return render(request, 'core/password_reset_done.html', {'error': 'Otp is wrong enter correct Otp'})

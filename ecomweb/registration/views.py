@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
-from ecomweb.settings import EMAIL_HOST_USER
-from django.core.mail import send_mail
+import re
 
 from django.contrib.auth.hashers import make_password
-from home.models.customer import Customer
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
 from django.views import View
-import re
+
+from ecomweb.settings import EMAIL_HOST_USER
+from home.models.customer import Customer
 
 
 class Signup(View):

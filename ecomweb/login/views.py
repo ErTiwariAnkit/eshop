@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect
-
 from django.contrib.auth.hashers import check_password
+from django.shortcuts import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from home.models.customer import Customer
 from django.views import View
+
+from home.models.customer import Customer
 
 
 class Login(View):
@@ -39,4 +39,3 @@ class Login(View):
 
         print(email, password)
         return render(request, 'login.html', {'error': error_message})
-    

@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
-from ecomweb.settings import EMAIL_HOST_USER
-import math, random
-from django.core.mail import send_mail
+import math
+import random
 
-from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from django.views import View
+
+from ecomweb.settings import EMAIL_HOST_USER
 from home.models.customer import Customer
 from home.models.otp import Otp
-from django.views import View
-import re
+
 
 class Password_reset(View):
     def get(self, request):
@@ -21,7 +22,7 @@ class Password_reset(View):
         if customer:
             otp1=self.generateOTP()
             Otp.objects.all().delete()
-            otp2=Otp(otp=otp1)
+            otp2 = Otp(otp=otp1, email=email)
             otp2.save()
             self.send_mail1(email,otp1)
             return redirect('password_reset_done')
@@ -30,7 +31,7 @@ class Password_reset(View):
     def generateOTP(self):
         digits = "0123456789"
         OTP = ""
-        for i in range(4) :
+        for i in range(6):
             OTP += digits[math.floor(random.random() * 10)]
         return OTP
     def validateotp():

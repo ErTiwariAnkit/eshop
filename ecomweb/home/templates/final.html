@@ -4,15 +4,17 @@
 {% block content %}
 {% load cart %}
 {% load custom_filter %}
-<h1>Thank You</h1>
-<p>Your Order has been succesfully completed.your order no is-----------</p>
-{% for value in id1 %}
-<h1>
-    {{ value }}
-</h1>
-{% endfor %}
+<div class="border rounded p-4 m-4">
+    <h1><b>Thank You</b></h1>
+    <h6 class="display-4 pl-4 ml-4">Your Order has been succesfully completed.your order no is-----------</h6>
+    {% for value in id1 %}
+    <h1>
+        {{ value }}
+    </h1>
+    {% endfor %}
+</div>
 <div class="m-3 p-3">
-    <a href="/orders" class="btn btn-outline-info border rounded  col-lg-3 float-right">Your Order</a>
+    <a href="/orders" class="btn btn-outline-info border rounded  col-lg-3 float-left"><h1>Your Orders</h1></a>
 </div>
 
 

@@ -1,11 +1,14 @@
 from django.db import models
-from .product import Product
-from .customer import Customer
-import datetime
 
 
 class Otp(models.Model):
     otp = models.IntegerField()
+    email = models.EmailField()
+
     @staticmethod
     def get_otp():
-        return list(Otp.objects.values_list('otp', flat = True))[0]
+        return list(Otp.objects.values_list('otp', flat=True))[0]
+
+    @staticmethod
+    def get_email():
+        return list(Otp.objects.values_list('email', flat=True))[0]

@@ -56,7 +56,7 @@
                     <label for="">First Name</label>
                     <input type="text" name="firstname"
                            id="" value="" class="form-control form-control-sm"
-                           placeholder="">
+                           required placeholder="">
                 </div>
 
                 <!-- last name -->
@@ -81,25 +81,25 @@
                     <input type="text" name="phone"
                            id="" class="form-control form-control-sm"
                            value="{{values.phone}}"
-                           placeholder="565698959"
+                           required placeholder="565698959"
                     >
                 </div>
                 <div class="form-group">
                     <label for="">Address</label>
                     <input type="address" name="address"
                            id="address" class="form-control form-control-sm"
-                           placeholder="">
+                           required placeholder="">
 
                 </div>
                 <div class="form-group">
                     <label for="">Postal code</label>
-                    <input type="text" name="postal"
+                    <input type="text" name="postal" required
                            id="" value="{{values.postal}}" class="form-control form-control-sm"
                            placeholder="">
                 </div>
                 <div class="form-group">
                     <label for="">City</label>
-                    <input type="text" name="city"
+                    <input type="text" name="city" required
                            id="" value="{{values.city}}" class="form-control form-control-sm"
                            placeholder="">
                 </div>
